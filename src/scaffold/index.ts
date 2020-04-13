@@ -106,9 +106,10 @@ function updateMainFile(options: ScaffoldOptions) {
         const workspace = getWorkspace(host);
         const project = workspace.projects[options.project as string];
         let path: string;
+
         if (project && project.architect && project.architect.build &&
-            project.architect.build.options.index) {
-            path = project.architect.build.options.main;
+            ((project.architect.build.options) as any).index) {
+            path = ((project.architect.build.options) as any).main;
         } else {
             throw new SchematicsException('Could not find main.ts file for the project');
         }

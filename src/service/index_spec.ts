@@ -1,7 +1,7 @@
 import {Tree} from '@angular-devkit/schematics';
 import {SchematicTestRunner, UnitTestTree} from '@angular-devkit/schematics/testing';
 import * as path from 'path';
-import {Schema as ApplicationOptions} from '@schematics/angular/application/schema';
+import {Schema as ApplicationOptions, Style} from '@schematics/angular/application/schema';
 import {Schema as WorkspaceOptions} from '@schematics/angular/workspace/schema';
 
 // SchematicTestRunner needs an absolute path to the collection to test.
@@ -32,7 +32,7 @@ describe('service', () => {
             inlineStyle: false,
             inlineTemplate: false,
             routing: false,
-            style: 'css',
+            style: Style.Css,
             skipTests: false,
             skipPackageJson: false,
         };
@@ -104,7 +104,7 @@ describe('service', () => {
             inlineStyle: false,
             inlineTemplate: false,
             routing: false,
-            style: 'css',
+            style: Style.Css,
             skipTests: false,
             skipPackageJson: false,
         };

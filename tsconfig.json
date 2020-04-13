@@ -2,9 +2,10 @@
   "compilerOptions": {
     "baseUrl": "tsconfig",
     "lib": [
-      "es2017",
+      "es2018",
       "dom"
     ],
+    "declaration": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": true,

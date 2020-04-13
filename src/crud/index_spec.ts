@@ -1,7 +1,7 @@
 import {Tree} from '@angular-devkit/schematics';
 import {SchematicTestRunner, UnitTestTree} from '@angular-devkit/schematics/testing';
 import * as path from 'path';
-import {Schema as ApplicationOptions} from '@schematics/angular/application/schema';
+import {Schema as ApplicationOptions, Style} from '@schematics/angular/application/schema';
 import {Schema as WorkspaceOptions} from '@schematics/angular/workspace/schema';
 import * as sinon from 'sinon';
 import * as fetch from 'node-fetch';
@@ -34,7 +34,7 @@ describe('crud', () => {
             inlineStyle: false,
             inlineTemplate: false,
             routing: false,
-            style: 'scss',
+            style: Style.Scss,
             skipTests: false,
             skipPackageJson: false,
         };
@@ -168,7 +168,7 @@ describe('crud', () => {
             inlineStyle: false,
             inlineTemplate: false,
             routing: false,
-            style: 'scss',
+            style: Style.Scss,
             skipTests: false,
             skipPackageJson: false,
         };
@@ -293,7 +293,7 @@ describe('crud', () => {
             inlineStyle: false,
             inlineTemplate: false,
             routing: false,
-            style: 'scss',
+            style: Style.Scss,
             skipTests: false,
             skipPackageJson: false,
         };

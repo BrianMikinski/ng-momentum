@@ -1,7 +1,7 @@
 import {Tree} from '@angular-devkit/schematics';
 import {SchematicTestRunner, UnitTestTree} from '@angular-devkit/schematics/testing';
 import * as path from 'path';
-import {Schema as ApplicationOptions} from '@schematics/angular/application/schema';
+import {Schema as ApplicationOptions, Style} from '@schematics/angular/application/schema';
 import {Schema as WorkspaceOptions} from '@schematics/angular/workspace/schema';
 
 // SchematicTestRunner needs an absolute path to the collection to test.
@@ -32,7 +32,7 @@ describe('view', () => {
             inlineStyle: false,
             inlineTemplate: false,
             routing: false,
-            style: 'scss',
+            style: Style.Scss,
             skipTests: false,
             skipPackageJson: false,
         };
@@ -329,7 +329,7 @@ describe('view', () => {
             inlineStyle: false,
             inlineTemplate: false,
             routing: false,
-            style: 'scss',
+            style: Style.Scss,
             skipTests: false,
             skipPackageJson: false,
         };
@@ -678,7 +678,7 @@ describe('view', () => {
             inlineStyle: false,
             inlineTemplate: false,
             routing: false,
-            style: 'scss',
+            style: Style.Scss,
             skipTests: false,
             skipPackageJson: false,
         };
@@ -960,7 +960,7 @@ describe('view', () => {
             inlineStyle: false,
             inlineTemplate: false,
             routing: false,
-            style: 'scss',
+            style: Style.Scss,
             skipTests: false,
             skipPackageJson: false,
         };
