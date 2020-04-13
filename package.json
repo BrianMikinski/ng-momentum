@@ -32,13 +32,16 @@
     "@angular/core": "9.1.1",
     "@angular/material": "9.2.0",
     "@angular/pwa": "0.901.1",
-    "@types/jasmine": "~3.5.0",
-    "@types/node": "^12.11.1",
-    "jasmine": "^3.5.0",
     "node-fetch": "^2.1.2",
     "pluralize": "^7.0.0",
     "sinon": "^6.1.5",
     "typescript": "^3.5.0",
     "zone.js": "^0.8.26"
+  },
+  "devDependencies": {
+    "@angular-devkit/schematics-cli": "^0.901.1",
+    "@types/jasmine": "~3.5.0",
+    "@types/node": "^12.11.1",
+    "jasmine": "^3.5.0"
   }
 }

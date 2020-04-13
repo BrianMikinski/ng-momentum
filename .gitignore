@@ -6,7 +6,7 @@
 # IDEs
 .idea/
 jsconfig.json
-.vscode/
+#.vscode/
 *.iml
 
 # Misc

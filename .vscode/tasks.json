@@ -1,0 +1,18 @@
+{
+    "label": "npm:run:build",
+    "type": "shell",
+    "script": "build",
+    "problemMatcher": [],
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "npm",
+            "script": "build",
+            "path": "./",
+            "group": "build",
+            "problemMatcher": [],
+            "label": "npm: build - ng-momentum",
+            "detail": "tsc -p tsconfig.json",
+        }
+    ]
+}
