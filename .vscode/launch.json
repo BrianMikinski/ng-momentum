@@ -7,9 +7,8 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Launch ng-momentum view schematic",
             "program": "${workspaceFolder}/node_modules/@angular-devkit/schematics-cli/bin/schematics.js",
-            //"cwd": "${workspaceFolder}",
             "args": [
                 ".:view",
                 "--name=my_view",
@@ -17,6 +16,22 @@
             ],
             "outFiles": [ ],
             "preLaunchTask": "npm: build - ng-momentum"
-        } //,
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch ng-momentum scaffold",
+            "program": "${workspaceFolder}/node_modules/@angular-devkit/schematics-cli/bin/schematics.js",
+            "args": [
+                ".:ng-add"
+                // ,
+                // "--spec=false",
+                // "--skipScripts=true",
+                // "--includePwa=true",
+                // "--uiFramework=material"
+            ],
+            "outFiles": [ ],
+            "preLaunchTask": "npm: build - ng-momentum"
+        }
     ]
 }
