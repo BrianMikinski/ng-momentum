@@ -40,7 +40,7 @@ describe('scaffold', () => {
                 .toPromise();
         });
 
-        xit('fails without app tree', () => {
+        it('fails without app tree', () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
             expect(() => runner.runSchematic('scaffold', {}, Tree.empty())).toThrow();
         });
@@ -116,7 +116,7 @@ describe('scaffold', () => {
             ]);
         });
 
-        xit('works without tests', async () => {
+        it('works without tests', async () => {
             const runner = new SchematicTestRunner('schematics', collectionPath);
             const tree = await runner.runSchematicAsync('scaffold', {
                 project: 'bar',
@@ -131,12 +131,12 @@ describe('scaffold', () => {
                 '/README.md',
                 '/angular.json',
                 '/package.json',
-                '/projects/bar-e2e/protractor.conf.js',
-                '/projects/bar-e2e/src/app.e2e-spec.ts',
-                '/projects/bar-e2e/src/app.po.ts',
-                '/projects/bar-e2e/tsconfig.e2e.json',
                 '/projects/bar/.rocket-rc.json',
                 '/projects/bar/browserslist',
+                '/projects/bar/e2e/protractor.conf.js',
+                '/projects/bar/e2e/src/app.e2e-spec.ts',
+                '/projects/bar/e2e/src/app.po.ts',
+                '/projects/bar/e2e/tsconfig.json',
                 '/projects/bar/karma.conf.js',
                 '/projects/bar/src/app/app.component.html',
                 '/projects/bar/src/app/app.component.scss',
@@ -181,7 +181,7 @@ describe('scaffold', () => {
             ]);
         });
 
-        xit('works with pwa', async () => {
+        it('works with pwa', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
             const tree = await runner.runSchematicAsync('scaffold', {
                 project: 'bar',
@@ -196,12 +196,12 @@ describe('scaffold', () => {
                 '/README.md',
                 '/angular.json',
                 '/package.json',
-                '/projects/bar-e2e/protractor.conf.js',
-                '/projects/bar-e2e/src/app.e2e-spec.ts',
-                '/projects/bar-e2e/src/app.po.ts',
-                '/projects/bar-e2e/tsconfig.e2e.json',
                 '/projects/bar/.rocket-rc.json',
                 '/projects/bar/browserslist',
+                '/projects/bar/e2e/protractor.conf.js',
+                '/projects/bar/e2e/src/app.e2e-spec.ts',
+                '/projects/bar/e2e/src/app.po.ts',
+                '/projects/bar/e2e/tsconfig.json',
                 '/projects/bar/karma.conf.js',
                 '/projects/bar/src/app/app.component.html',
                 '/projects/bar/src/app/app.component.scss',
@@ -281,7 +281,7 @@ describe('scaffold', () => {
                 .toPromise();
         });
 
-        xit('works with tests', async () => {
+        it('works with tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
             const tree = await runner.runSchematicAsync('scaffold', {
                 project: '',
@@ -296,10 +296,12 @@ describe('scaffold', () => {
                 '/.rocket-rc.json',
                 '/README.md',
                 '/angular.json',
+                '/browserslist',
                 '/e2e/protractor.conf.js',
                 '/e2e/src/app.e2e-spec.ts',
                 '/e2e/src/app.po.ts',
-                '/e2e/tsconfig.e2e.json',
+                '/e2e/tsconfig.json',
+                '/karma.conf.js',
                 '/package.json',
                 '/src/app/app.component.html',
                 '/src/app/app.component.scss',
@@ -332,27 +334,24 @@ describe('scaffold', () => {
                 '/src/app/views/page-not-found/page-not-found.module.ts',
                 '/src/app/vos/.gitkeep',
                 '/src/assets/.gitkeep',
-                '/src/browserslist',
                 '/src/environments/environment.prod.ts',
                 '/src/environments/environment.ts',
                 '/src/favicon.ico',
                 '/src/index.html',
-                '/src/karma.conf.js',
                 '/src/locale/messages.en.xlf',
                 '/src/main.ts',
                 '/src/messages.xlf',
                 '/src/polyfills.ts',
                 '/src/styles.scss',
                 '/src/test.ts',
-                '/src/tsconfig.app.json',
-                '/src/tsconfig.spec.json',
-                '/src/tslint.json',
+                '/tsconfig.app.json',
                 '/tsconfig.json',
+                '/tsconfig.spec.json',
                 '/tslint.json',
             ]);
         });
 
-        xit('works without tests', async () => {
+        it('works without tests', async () => {
             const runner = new SchematicTestRunner('schematics', collectionPath);
             const tree = await runner.runSchematicAsync('scaffold', {
                 project: '',
@@ -367,10 +366,12 @@ describe('scaffold', () => {
                 '/.rocket-rc.json',
                 '/README.md',
                 '/angular.json',
+                '/browserslist',
                 '/e2e/protractor.conf.js',
                 '/e2e/src/app.e2e-spec.ts',
                 '/e2e/src/app.po.ts',
-                '/e2e/tsconfig.e2e.json',
+                '/e2e/tsconfig.json',
+                '/karma.conf.js',
                 '/package.json',
                 '/src/app/app.component.html',
                 '/src/app/app.component.scss',
@@ -397,27 +398,26 @@ describe('scaffold', () => {
                 '/src/app/views/page-not-found/page-not-found.module.ts',
                 '/src/app/vos/.gitkeep',
                 '/src/assets/.gitkeep',
-                '/src/browserslist',
+              
                 '/src/environments/environment.prod.ts',
                 '/src/environments/environment.ts',
                 '/src/favicon.ico',
                 '/src/index.html',
-                '/src/karma.conf.js',
+              
                 '/src/locale/messages.en.xlf',
                 '/src/main.ts',
                 '/src/messages.xlf',
                 '/src/polyfills.ts',
                 '/src/styles.scss',
                 '/src/test.ts',
-                '/src/tsconfig.app.json',
-                '/src/tsconfig.spec.json',
-                '/src/tslint.json',
+                '/tsconfig.app.json',
                 '/tsconfig.json',
+                '/tsconfig.spec.json',
                 '/tslint.json',
             ]);
         });
 
-        xit('works with pwa', async () => {
+        it('works with pwa', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
             const tree = await runner.runSchematicAsync('scaffold', {
                 project: 'bar',
@@ -432,10 +432,12 @@ describe('scaffold', () => {
                 '/.rocket-rc.json',
                 '/README.md',
                 '/angular.json',
+                '/browserslist',
                 '/e2e/protractor.conf.js',
                 '/e2e/src/app.e2e-spec.ts',
                 '/e2e/src/app.po.ts',
-                '/e2e/tsconfig.e2e.json',
+                '/e2e/tsconfig.json',
+                '/karma.conf.js',
                 '/package.json',
                 '/src/app/app.component.html',
                 '/src/app/app.component.scss',
@@ -462,22 +464,19 @@ describe('scaffold', () => {
                 '/src/app/views/page-not-found/page-not-found.module.ts',
                 '/src/app/vos/.gitkeep',
                 '/src/assets/.gitkeep',
-                '/src/browserslist',
                 '/src/environments/environment.prod.ts',
                 '/src/environments/environment.ts',
                 '/src/favicon.ico',
                 '/src/index.html',
-                '/src/karma.conf.js',
                 '/src/locale/messages.en.xlf',
                 '/src/main.ts',
                 '/src/messages.xlf',
                 '/src/polyfills.ts',
                 '/src/styles.scss',
                 '/src/test.ts',
-                '/src/tsconfig.app.json',
-                '/src/tsconfig.spec.json',
-                '/src/tslint.json',
+                '/tsconfig.app.json',
                 '/tsconfig.json',
+                '/tsconfig.spec.json',
                 '/tslint.json',
             ]);
         });

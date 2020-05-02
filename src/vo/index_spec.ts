@@ -22,7 +22,7 @@ describe('vo', () => {
     const workspaceOptions: WorkspaceOptions = {
         name: 'workspace',
         newProjectRoot: 'projects',
-        version: '6.0.0',
+        version: '9.1.1',
     };
 
     describe('with project', () => {
