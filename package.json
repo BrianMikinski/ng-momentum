@@ -4,7 +4,7 @@
   "description": "Momentum is an Angular Schematic developed by the Bottle Rocket Web Team to build best-in-class web applications faster.",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && jasmine src/**/view/index_spec.js"
+    "test": "npm run build && jasmine src/**/vo/index_spec.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,8 @@
   "author": "🚀 The Bottle Rocket Web Team 🚀",
   "contributors": [
     "Jonathan Campos <jonbcampos@gmail.com>",
-    "Mike Cory <mikecory2@gmail.com>"
+    "Mike Cory <mikecory2@gmail.com>",
+    "Brian Mikinski <brian.mikinski@gmail.com>"
   ],
   "license": "Apache-2.0",
   "schematics": "./src/collection.json",
@@ -32,11 +33,11 @@
     "@angular/core": "9.1.1",
     "@angular/material": "9.2.0",
     "@angular/pwa": "0.901.1",
-    "node-fetch": "^2.1.2",
-    "pluralize": "^7.0.0",
-    "sinon": "^6.1.5",
-    "typescript": "^3.5.0",
-    "zone.js": "^0.8.26"
+    "node-fetch": "2.6.0",
+    "pluralize": "8.0.0",
+    "sinon": "6.1.5",
+    "typescript": "3.5.0",
+    "zone.js": "0.10.3"
   },
   "devDependencies": {
     "@angular-devkit/schematics-cli": "^0.901.1",
