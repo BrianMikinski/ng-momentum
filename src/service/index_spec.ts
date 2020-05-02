@@ -22,7 +22,7 @@ describe('service', () => {
     const workspaceOptions: WorkspaceOptions = {
         name: 'workspace',
         newProjectRoot: 'projects',
-        version: '6.0.0',
+        version: '9.1.1',
     };
 
     describe('with project', () => {
@@ -38,12 +38,14 @@ describe('service', () => {
         };
 
         let appTree: UnitTestTree;
-        beforeEach(() => {
-            appTree = schematicRunner.runSchematic('workspace', workspaceOptions);
-            appTree = schematicRunner.runSchematic('application', appOptions, appTree);
-            appTree = customRunner.runSchematic('scaffold', {
+        beforeEach(async () => {
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'workspace', workspaceOptions)
+                .toPromise();
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'application', appOptions, appTree)
+                .toPromise();
+            appTree = await customRunner.runExternalSchematicAsync('momentum', 'scaffold', {
                 spec: true
-            }, appTree);
+            }, appTree).toPromise();
         });
 
         it('requires required option', () => {
@@ -57,11 +59,11 @@ describe('service', () => {
             expect(() => runner.runSchematic('svc', {}, Tree.empty())).toThrow();
         });
 
-        it('works', () => {
+        it('works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('svc', {
+            const tree = await runner.runSchematicAsync('svc', {
                 name: 'test'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -79,12 +81,12 @@ describe('service', () => {
             )).toBeGreaterThanOrEqual(0);
         });
 
-        it('works without tests', () => {
+        it('works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('svc', {
+            const tree = await runner.runSchematicAsync('svc', {
                 name: 'test',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -110,12 +112,14 @@ describe('service', () => {
         };
 
         let appTree: UnitTestTree;
-        beforeEach(() => {
-            appTree = schematicRunner.runSchematic('workspace', workspaceOptions);
-            appTree = schematicRunner.runSchematic('application', appOptions, appTree);
-            appTree = customRunner.runSchematic('scaffold', {
+        beforeEach(async () => {
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'workspace', workspaceOptions)
+                .toPromise();
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'application', appOptions, appTree)
+                .toPromise();
+            appTree = await customRunner.runExternalSchematicAsync('momentum', 'scaffold', {
                 spec: true
-            }, appTree);
+            }, appTree).toPromise();
         });
 
         it('requires required option', () => {
@@ -129,11 +133,11 @@ describe('service', () => {
             expect(() => runner.runSchematic('svc', {}, Tree.empty())).toThrow();
         });
 
-        it('works', () => {
+        it('works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('svc', {
+            const tree = await runner.runSchematicAsync('svc', {
                 name: 'test',
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -143,12 +147,12 @@ describe('service', () => {
             expect(tree.files.indexOf('/src/app/services/tests/tests.service.spec.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('works without tests', () => {
+        it('works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('svc', {
+            const tree = await runner.runSchematicAsync('svc', {
                 name: 'test',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
