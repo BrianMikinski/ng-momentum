@@ -122,7 +122,8 @@ describe('crud', () => {
         it('works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
             const tree = await runner.runSchematicAsync('crud', {
-                name: 'test'
+                name: 'test',
+                spec: false
             }, appTree).toPromise();
 
             // Listing files
