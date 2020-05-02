@@ -22,3 +22,4 @@ yarn-error.log*
 src/**/*.js
 src/**/*.js.map
 src/**/*.d.ts
+ng-momentum-*.tgz
