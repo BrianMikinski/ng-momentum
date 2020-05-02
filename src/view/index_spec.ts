@@ -22,7 +22,7 @@ describe('view', () => {
     const workspaceOptions: WorkspaceOptions = {
         name: 'workspace',
         newProjectRoot: 'projects',
-        version: '6.0.0',
+        version: '9.1.1',
     };
 
     describe('with project', () => {
@@ -38,12 +38,12 @@ describe('view', () => {
         };
 
         let appTree: UnitTestTree;
-        beforeEach(() => {
-            appTree = schematicRunner.runSchematic('workspace', workspaceOptions);
-            appTree = schematicRunner.runSchematic('application', appOptions, appTree);
-            appTree = customRunner.runSchematic('scaffold', {
+        beforeEach(async () => {
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'workspace', workspaceOptions).toPromise();
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'application', appOptions, appTree).toPromise();
+            appTree = await customRunner.runExternalSchematicAsync('momentum','scaffold', {
                 spec: true
-            }, appTree);
+            }, appTree).toPromise();
         });
 
         it('requires required option', () => {
@@ -57,11 +57,11 @@ describe('view', () => {
             expect(() => runner.runSchematic('view', {}, Tree.empty())).toThrow();
         });
 
-        it('blank works', () => {
+        it('blank works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test'
-            }, appTree);
+            }, appTree).toPromise();
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -82,12 +82,12 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('blank works without tests', () => {
+        it('blank works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise();
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -108,12 +108,12 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('details works', () => {
+        it('details works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'details'
-            }, appTree);
+            }, appTree).toPromise();
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -134,13 +134,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('details works without tests', () => {
+        it('details works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'details',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise();
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -161,12 +161,12 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('form works', () => {
+        it('form works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'form'
-            }, appTree);
+            }, appTree).toPromise();
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -187,13 +187,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('form works without tests', () => {
+        it('form works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'form',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise();
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -214,12 +214,12 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('list works', () => {
+        it('list works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'list'
-            }, appTree);
+            }, appTree).toPromise();
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -240,13 +240,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('list works without tests', () => {
+        it('list works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'list',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise();
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -267,12 +267,12 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('table works', () => {
+        it('table works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'table'
-            }, appTree);
+            }, appTree).toPromise() ;
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -293,13 +293,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('table works without tests', () => {
+        it('table works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'table',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise() ;
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -335,31 +335,31 @@ describe('view', () => {
         };
 
         let appTree: UnitTestTree;
-        beforeEach(() => {
-            appTree = schematicRunner.runSchematic('workspace', workspaceOptions);
-            appTree = schematicRunner.runSchematic('application', appOptions, appTree);
-            appTree = customRunner.runSchematic('scaffold', {
+        beforeEach(async () => {
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'workspace', workspaceOptions).toPromise();
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'application', appOptions, appTree).toPromise();
+            appTree = await customRunner.runExternalSchematicAsync('momentum','scaffold', {
                 spec: true
-            }, appTree);
+            }, appTree).toPromise();
         });
 
         it('requires required option', () => {
             // We test that
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            expect(() => runner.runSchematic('view', {}, appTree)).toThrow();
+            expect( () => runner.runSchematic('view', {}, appTree)).toThrow();
         });
 
         it('fails without app tree', () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            expect(() => runner.runSchematic('view', {}, Tree.empty())).toThrow();
+            expect( () => runner.runSchematic('view', {}, Tree.empty())).toThrow();
         });
 
-        it('blank works', () => {
+        it('blank works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 eager: true
-            }, appTree);
+            }, appTree).toPromise() ;
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -386,13 +386,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('blank works without tests', () => {
+        it('blank works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 spec: false,
                 eager: true
-            }, appTree);
+            }, appTree).toPromise();
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -417,13 +417,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('details works', () => {
+        it('details works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'details',
                 eager: true
-            }, appTree);
+            }, appTree).toPromise() ;
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -448,14 +448,14 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('details works without tests', () => {
+        it('details works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'details',
                 spec: false,
                 eager: true
-            }, appTree);
+            }, appTree).toPromise() ;
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -480,13 +480,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('form works', () => {
+        it('form works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'form',
                 eager: true
-            }, appTree);
+            }, appTree).toPromise() ;
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -511,14 +511,14 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('form works without tests', () => {
+        it('form works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'form',
                 spec: false,
                 eager: true
-            }, appTree);
+            }, appTree).toPromise() ; 
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -543,13 +543,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('list works', () => {
+        it('list works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'list',
                 eager: true
-            }, appTree);
+            }, appTree).toPromise() ;
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -574,14 +574,14 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('list works without tests', () => {
+        it('list works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'list',
                 spec: false,
                 eager: true
-            }, appTree);
+            }, appTree).toPromise() ;
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -606,13 +606,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('table works', () => {
+        it('table works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'table',
                 eager: true
-            }, appTree);
+            }, appTree).toPromise() ;
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -637,14 +637,14 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('table works without tests', () => {
+        it('table works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'table',
                 spec: false,
                 eager: true
-            }, appTree);
+            }, appTree).toPromise();
 
             // has lazy loaded content
             expect(tree.readContent('/projects/bar/src/app/app.routing.module.ts').indexOf(
@@ -684,35 +684,36 @@ describe('view', () => {
         };
 
         let appTree: UnitTestTree;
-        beforeEach(() => {
-            appTree = schematicRunner.runSchematic('workspace', workspaceOptions);
-            appTree = schematicRunner.runSchematic('application', appOptions, appTree);
-            appTree = customRunner.runSchematic('scaffold', {
+        beforeEach(async () => {
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular','workspace', workspaceOptions).toPromise();
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'application', appOptions, appTree).toPromise();
+            appTree = await customRunner.runExternalSchematicAsync('momentum', 'scaffold', {
                 spec: true
-            }, appTree);
-            appTree = customRunner.runSchematic('vo', {
+            }, appTree).toPromise();
+
+            appTree = await customRunner.runExternalSchematicAsync('momentum', 'vo', {
                 name: 'custom vo',
                 obj: '{"id":"number", "customName": "string"}',
-            }, appTree);
+            }, appTree).toPromise();
         });
 
         it('requires required option', () => {
             // We test that
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            expect(() => runner.runSchematic('view', {}, appTree)).toThrow();
+            expect( () => runner.runSchematic('view', {}, appTree)).toThrow();
         });
 
         it('fails without app tree', () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            expect(() => runner.runSchematic('view', {}, Tree.empty())).toThrow();
+            expect( () => runner.runSchematic('view', {}, Tree.empty())).toThrow();
         });
 
-        it('blank works', () => {
+        it('blank works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 vo: 'custom vo'
-            }, appTree);
+            }, appTree).toPromise() ;
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBe(-1);
@@ -730,13 +731,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('blank works without tests', () => {
+        it('blank works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 spec: false,
                 vo: 'custom vo'
-            }, appTree);
+            }, appTree).toPromise() ;
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBe(-1);
@@ -754,13 +755,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('details works', () => {
+        it('details works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'details',
                 vo: 'custom vo'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBe(-1);
@@ -778,14 +779,14 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('details works without tests', () => {
+        it('details works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'details',
                 spec: false,
                 vo: 'custom vo'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBe(-1);
@@ -803,13 +804,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('form works', () => {
+        it('form works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'form',
                 vo: 'custom vo'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBe(-1);
@@ -827,14 +828,14 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('form works without tests', () => {
+        it('form works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'form',
                 spec: false,
                 vo: 'custom vo'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBe(-1);
@@ -852,13 +853,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('list works', () => {
+        it('list works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'list',
                 vo: 'custom vo'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBe(-1);
@@ -876,14 +877,14 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('list works without tests', () => {
+        it('list works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'list',
                 spec: false,
                 vo: 'custom vo'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBe(-1);
@@ -901,13 +902,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('table works', () => {
+        it('table works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'table',
                 vo: 'custom vo'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBe(-1);
@@ -925,14 +926,14 @@ describe('view', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('table works without tests', () => {
+        it('table works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'table',
                 spec: false,
                 vo: 'custom vo'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBe(-1);
@@ -966,30 +967,33 @@ describe('view', () => {
         };
 
         let appTree: UnitTestTree;
-        beforeEach(() => {
-            appTree = schematicRunner.runSchematic('workspace', workspaceOptions);
-            appTree = schematicRunner.runSchematic('application', appOptions, appTree);
-            appTree = customRunner.runSchematic('scaffold', {
+
+        beforeEach(async () => {
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'workspace', workspaceOptions)
+                .toPromise();
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'application', appOptions, appTree).
+                toPromise();
+            appTree = await customRunner.runExternalSchematicAsync('momentum', 'scaffold', {
                 spec: true
-            }, appTree);
+            }, appTree).toPromise();
         });
 
         it('requires required option', () => {
             // We test that
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            expect(() => runner.runSchematic('view', {}, appTree)).toThrow();
+            expect( () => runner.runSchematic('view', {}, appTree)).toThrow();
         });
 
         it('fails without app tree', () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            expect(() => runner.runSchematic('view', {}, Tree.empty())).toThrow();
+            expect( () => runner.runSchematic('view', {}, Tree.empty())).toThrow();
         });
 
-        it('blank works', () => {
+        it('blank works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBe(-1);
@@ -1005,12 +1009,12 @@ describe('view', () => {
             expect(tree.files.indexOf('/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('blank works without tests', () => {
+        it('blank works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBe(-1);
@@ -1026,12 +1030,12 @@ describe('view', () => {
             expect(tree.files.indexOf('/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('details works', () => {
+        it('details works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'details'
-            }, appTree);
+            }, appTree).toPromise(); 
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -1047,13 +1051,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('details works without tests', () => {
+        it('details works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'details',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -1069,12 +1073,12 @@ describe('view', () => {
             expect(tree.files.indexOf('/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('form works', () => {
+        it('form works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'form'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -1090,13 +1094,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('form works without tests', () => {
+        it('form works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'form',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -1112,12 +1116,12 @@ describe('view', () => {
             expect(tree.files.indexOf('/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('list works', () => {
+        it('list works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'list'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -1133,13 +1137,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('list works without tests', () => {
+        it('list works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'list',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -1155,12 +1159,12 @@ describe('view', () => {
             expect(tree.files.indexOf('/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('table works', () => {
+        it('table works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'table'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -1176,13 +1180,13 @@ describe('view', () => {
             expect(tree.files.indexOf('/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('table works without tests', () => {
+        it('table works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('view', {
+            const tree = await runner.runSchematicAsync('view', {
                 name: 'test',
                 template: 'table',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
