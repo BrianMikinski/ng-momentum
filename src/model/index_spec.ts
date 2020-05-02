@@ -38,12 +38,20 @@ describe('model', () => {
         };
 
         let appTree: UnitTestTree;
-        beforeEach(() => {
-            appTree = schematicRunner.runSchematic('workspace', workspaceOptions);
-            appTree = schematicRunner.runSchematic('application', appOptions, appTree);
-            appTree = customRunner.runSchematic('scaffold', {
+        beforeEach( async () => {
+            await schematicRunner.runExternalSchematicAsync('@schematics/angular','workspace', workspaceOptions)
+            .toPromise().then(tree => {
+                appTree = tree;
+            });
+            await schematicRunner.runExternalSchematicAsync('@schematics/angular','application', appOptions, appTree)
+            .toPromise().then(tree => {
+                appTree = tree;
+            });
+            await customRunner.runExternalSchematicAsync('momentum', 'scaffold', {
                 spec: true
-            }, appTree);
+            }, appTree).toPromise().then(tree => {
+                appTree = tree;
+            });
         });
 
         it('requires required option', () => {
@@ -57,35 +65,36 @@ describe('model', () => {
             expect(() => runner.runSchematic('model', {}, Tree.empty())).toThrow();
         });
 
-        it('blank works', () => {
+        it('blank works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('model', {
+            
+            const tree = await runner.runSchematicAsync('model', {
                 name: 'test'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/models/test/test.model.ts')).toBeGreaterThanOrEqual(0);
             expect(tree.files.indexOf('/projects/bar/src/app/models/test/test.model.spec.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('blank works without tests', () => {
+        it('blank works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('model', {
+            const tree = await runner.runSchematicAsync('model', {
                 name: 'test',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/models/test/test.model.ts')).toBeGreaterThanOrEqual(0);
             expect(tree.files.indexOf('/projects/bar/src/app/models/test/test.model.spec.ts')).toBe(-1);
         });
 
-        it('list works', () => {
+        it('list works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('model', {
+            const tree = await runner.runSchematicAsync('model', {
                 name: 'test',
                 template: 'list'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -100,11 +109,15 @@ describe('model', () => {
 
         it('list works without tests', () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('model', {
+            let tree: UnitTestTree;
+            
+            runner.runSchematicAsync('model', {
                 name: 'test',
                 template: 'list',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise().then( value => {
+                tree = value;
+            });
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -117,12 +130,12 @@ describe('model', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/services/tests/tests.service.spec.ts')).toBe(-1);
         });
 
-        it('selected works', () => {
+        it('selected works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('model', {
+            const tree = await runner.runSchematicAsync('model', {
                 name: 'test',
                 template: 'selected'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -135,13 +148,13 @@ describe('model', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/services/tests/tests.service.spec.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('selected works without tests', () => {
+        it('selected works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('model', {
+            const tree = await runner.runSchematicAsync('model', {
                 name: 'test',
                 template: 'selected',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -170,12 +183,16 @@ describe('model', () => {
         };
 
         let appTree: UnitTestTree;
-        beforeEach(() => {
-            appTree = schematicRunner.runSchematic('workspace', workspaceOptions);
-            appTree = schematicRunner.runSchematic('application', appOptions, appTree);
-            appTree = customRunner.runSchematic('scaffold', {
+        beforeEach(async () => {
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'workspace', workspaceOptions)
+            .toPromise();
+            
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'application', appOptions, appTree)
+            .toPromise();
+            
+            appTree = await customRunner.runExternalSchematicAsync('momentum', 'scaffold', {
                 spec: true
-            }, appTree);
+            }, appTree).toPromise();
         });
 
         it('requires required option', () => {
@@ -189,23 +206,23 @@ describe('model', () => {
             expect(() => runner.runSchematic('model', {}, Tree.empty())).toThrow();
         });
 
-        it('blank works', () => {
+        it('blank works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('model', {
+            const tree = await runner.runSchematicAsync('model', {
                 name: 'test'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/src/app/models/test/test.model.ts')).toBeGreaterThanOrEqual(0);
             expect(tree.files.indexOf('/src/app/models/test/test.model.spec.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('blank works without tests', () => {
+        it('blank works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('model', {
+            const tree = await runner.runSchematicAsync('model', {
                 name: 'test',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/src/app/models/test/test.model.ts')).toBeGreaterThanOrEqual(0);
@@ -214,10 +231,14 @@ describe('model', () => {
 
         it('list works', () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('model', {
+            let tree: UnitTestTree;
+            
+            runner.runSchematicAsync('model', {
                 name: 'test',
                 template: 'list'
-            }, appTree);
+            }, appTree).toPromise().then(value => {
+                tree = value;
+            });
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -232,11 +253,15 @@ describe('model', () => {
 
         it('list works without tests', () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('model', {
+            let tree: UnitTestTree;
+            
+            runner.runSchematicAsync('model', {
                 name: 'test',
                 template: 'list',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise().then(value => {
+                tree = value;
+            });
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -251,10 +276,14 @@ describe('model', () => {
 
         it('selected works', () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('model', {
+            let tree: UnitTestTree;
+            
+            runner.runSchematicAsync('model', {
                 name: 'test',
                 template: 'selected'
-            }, appTree);
+            }, appTree).toPromise().then(value => {
+                tree = value;
+            });
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -269,11 +298,15 @@ describe('model', () => {
 
         it('selected works without tests', () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('model', {
+            let tree: UnitTestTree;
+            
+            runner.runSchematicAsync('model', {
                 name: 'test',
                 template: 'selected',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise().then(value => {
+                tree = value;
+            });
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
