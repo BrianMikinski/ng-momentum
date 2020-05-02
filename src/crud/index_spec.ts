@@ -24,7 +24,7 @@ describe('crud', () => {
     const workspaceOptions: WorkspaceOptions = {
         name: 'workspace',
         newProjectRoot: 'projects',
-        version: '6.0.0',
+        version: '9.1.1',
     };
 
     describe('with project', () => {
@@ -40,12 +40,17 @@ describe('crud', () => {
         };
 
         let appTree: UnitTestTree;
-        beforeEach(() => {
-            appTree = schematicRunner.runSchematic('workspace', workspaceOptions);
-            appTree = schematicRunner.runSchematic('application', appOptions, appTree);
-            appTree = customRunner.runSchematic('scaffold', {
+        beforeEach( async () => {
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'workspace', workspaceOptions)
+            .toPromise();
+
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'application', appOptions, appTree)
+            .toPromise();
+            
+            appTree = await customRunner.runExternalSchematicAsync('momentum', 'scaffold', {
                 spec: true,
-            }, appTree);
+            }, appTree)
+            .toPromise();
         });
 
         it('requires required option', () => {
@@ -56,14 +61,16 @@ describe('crud', () => {
 
         it('fails without app tree', () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            expect(() => runner.runSchematic('crud', {}, Tree.empty())).toThrow();
+            expect( () => runner.runSchematic('crud', {}, Tree.empty())).toThrow();
         });
 
-        it('works', () => {
+        it('works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('crud', {
+            //let tree: UnitTestTree;
+            
+           const tree = await runner.runSchematicAsync('crud', {
                 name: 'test'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -112,12 +119,11 @@ describe('crud', () => {
             expect(tree.files.indexOf('/projects/bar/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('works without tests', () => {
+        it('works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('crud', {
-                name: 'test',
-                spec: false
-            }, appTree);
+            const tree = await runner.runSchematicAsync('crud', {
+                name: 'test'
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/projects/bar/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -174,12 +180,17 @@ describe('crud', () => {
         };
 
         let appTree: UnitTestTree;
-        beforeEach(() => {
-            appTree = schematicRunner.runSchematic('workspace', workspaceOptions);
-            appTree = schematicRunner.runSchematic('application', appOptions, appTree);
-            appTree = customRunner.runSchematic('scaffold', {
-                spec: true
-            }, appTree);
+        beforeEach( async () => {
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'workspace', workspaceOptions)
+            .toPromise();
+
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'application', appOptions, appTree)
+            .toPromise();
+            
+             appTree = await customRunner.runExternalSchematicAsync('momentum', 'scaffold', {
+                spec: true,
+            }, appTree)
+            .toPromise();
         });
 
         it('requires required option', () => {
@@ -193,11 +204,11 @@ describe('crud', () => {
             expect(() => runner.runSchematic('crud', {}, Tree.empty())).toThrow();
         });
 
-        it('works', () => {
+        it('works', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('crud', {
+            const tree = await runner.runSchematicAsync('crud', {
                 name: 'test'
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -238,12 +249,13 @@ describe('crud', () => {
             expect(tree.files.indexOf('/src/app/views/test/test.routing.module.ts')).toBeGreaterThanOrEqual(0);
         });
 
-        it('works without tests', () => {
+        it('works without tests', async () => {
             const runner = new SchematicTestRunner('momentum', collectionPath);
-            const tree = runner.runSchematic('crud', {
+           
+           const tree = await runner.runSchematicAsync('crud', {
                 name: 'test',
                 spec: false
-            }, appTree);
+            }, appTree).toPromise();
 
             // Listing files
             expect(tree.files.indexOf('/src/app/vos/test/test.ts')).toBeGreaterThanOrEqual(0);
@@ -299,13 +311,20 @@ describe('crud', () => {
         };
 
         let appTree: UnitTestTree, sandbox;
-        beforeEach(() => {
-            appTree = schematicRunner.runSchematic('workspace', workspaceOptions);
-            appTree = schematicRunner.runSchematic('application', appOptions, appTree);
-            appTree = customRunner.runSchematic('scaffold', {
+        beforeEach( async () => {
+
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'workspace', workspaceOptions)
+            .toPromise();
+
+            appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'application', appOptions, appTree)
+            .toPromise();
+            
+             appTree = await customRunner.runExternalSchematicAsync('momentum', 'scaffold', {
                 spec: true,
                 style: 'scss'
-            }, appTree);
+            }, appTree)
+            .toPromise();
+
             sandbox = sinon.createSandbox();
             sandbox.stub(fetch, 'Promise').returns(Promise.resolve({
                 json: function () {
