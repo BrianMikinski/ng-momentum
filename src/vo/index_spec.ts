@@ -43,7 +43,6 @@ describe('vo', () => {
                 .toPromise();
             appTree = await schematicRunner.runExternalSchematicAsync('@schematics/angular', 'application', appOptions, appTree)
                 .toPromise();
-
             appTree = await customRunner.runExternalSchematicAsync('momentum', 'scaffold', {
                 spec: true
             }, appTree)

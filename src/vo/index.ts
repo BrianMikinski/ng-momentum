@@ -6,7 +6,11 @@ import {
     chain,
     template,
     url, move,
-    noop, filter, mergeWith, MergeStrategy,
+    noop,
+    filter,
+    mergeWith,
+    MergeStrategy, 
+    FileEntry, forEach,
 } from '@angular-devkit/schematics';
 import {join} from '@angular-devkit/core';
 import {strings} from '../utils/strings';
@@ -36,6 +40,15 @@ export function vo(options: VoOptions): Rule {
                 ...options,
             }),
             move(movePath),
+            // fix for bug
+            // https://stackoverflow.com/questions/48957132/how-to-overwrite-file-with-angular-schematics
+            forEach((fileEntry: FileEntry) => {
+                if (host.exists(fileEntry.path)) {
+                    host.overwrite(fileEntry.path, fileEntry.content);
+                  return null;
+                }
+                return fileEntry;
+              }),
         ]);
 
         const rule = chain([
