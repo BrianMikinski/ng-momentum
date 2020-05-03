@@ -10,7 +10,7 @@ import {
     filter,
     noop,
     schematic,
-    MergeStrategy, SchematicContext
+    MergeStrategy, SchematicContext, forEach, FileEntry
 } from '@angular-devkit/schematics';
 import {join, normalize} from '@angular-devkit/core';
 import {strings} from '../utils/strings';
@@ -170,6 +170,15 @@ export function crud(options: CrudOptions): Rule {
                 options.spec ? noop() : filter(path => !path.endsWith(constants.specFileExtension)),
                 template(templateOptions),
                 move(movePath),
+                // fix for bug
+                // https://stackoverflow.com/questions/48957132/how-to-overwrite-file-with-angular-schematics
+                forEach((fileEntry: FileEntry) => {
+                    if (host.exists(fileEntry.path)) {
+                        host.overwrite(fileEntry.path, fileEntry.content);
+                        return null;
+                    }
+                    return fileEntry;
+                }),
             ]), MergeStrategy.Default),
             options.eager ? importIntoCoreModule(options) : addToAppRouting(options)
         ]);

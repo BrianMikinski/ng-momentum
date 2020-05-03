@@ -12,6 +12,8 @@ import {
     noop,
     schematic,
     MergeStrategy,
+    forEach,
+    FileEntry,
 } from '@angular-devkit/schematics';
 import {join} from '@angular-devkit/core';
 import {strings} from '../utils/strings';
@@ -57,6 +59,15 @@ export function service(options: ServiceOptions): Rule {
                 ...options,
             }),
             move(movePath),
+             // fix for bug
+            // https://stackoverflow.com/questions/48957132/how-to-overwrite-file-with-angular-schematics
+            forEach((fileEntry: FileEntry) => {
+                if (host.exists(fileEntry.path)) {
+                    host.overwrite(fileEntry.path, fileEntry.content);
+                  return null;
+                }
+                return fileEntry;
+              }),
         ]);
 
         const rule = chain([
