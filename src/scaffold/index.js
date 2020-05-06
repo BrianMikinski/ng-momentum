@@ -174,18 +174,45 @@ function scaffold(options) {
                 defaultOptions.styleext ? schematics_1.noop() : schematics_1.filter(path => !path.endsWith(constants_1.constants.styleTemplateFileExtension)),
                 schematics_1.template(templateOptions),
                 schematics_1.move(appPath),
+                // fix for bug
+                // https://stackoverflow.com/questions/48957132/how-to-overwrite-file-with-angular-schematics
+                schematics_1.forEach((fileEntry) => {
+                    if (host.exists(fileEntry.path)) {
+                        host.overwrite(fileEntry.path, fileEntry.content);
+                        return null;
+                    }
+                    return fileEntry;
+                }),
             ]), schematics_1.MergeStrategy.Overwrite),
             schematics_1.mergeWith(schematics_1.apply(schematics_1.url('./src-files'), [
                 options.spec ? schematics_1.noop() : schematics_1.filter(path => !path.endsWith(constants_1.constants.specFileExtension)),
                 defaultOptions.styleext ? schematics_1.noop() : schematics_1.filter(path => !path.endsWith(constants_1.constants.styleTemplateFileExtension)),
                 schematics_1.template(templateOptions),
                 schematics_1.move(sourcePath),
+                // fix for bug
+                // https://stackoverflow.com/questions/48957132/how-to-overwrite-file-with-angular-schematics
+                schematics_1.forEach((fileEntry) => {
+                    if (host.exists(fileEntry.path)) {
+                        host.overwrite(fileEntry.path, fileEntry.content);
+                        return null;
+                    }
+                    return fileEntry;
+                }),
             ]), schematics_1.MergeStrategy.Default),
             schematics_1.mergeWith(schematics_1.apply(schematics_1.url('./project-files'), [
                 options.spec ? schematics_1.noop() : schematics_1.filter(path => !path.endsWith(constants_1.constants.specFileExtension)),
                 defaultOptions.styleext ? schematics_1.noop() : schematics_1.filter(path => !path.endsWith(constants_1.constants.styleTemplateFileExtension)),
                 schematics_1.template(templateOptions),
                 schematics_1.move(rootPath),
+                // fix for bug
+                // https://stackoverflow.com/questions/48957132/how-to-overwrite-file-with-angular-schematics
+                schematics_1.forEach((fileEntry) => {
+                    if (host.exists(fileEntry.path)) {
+                        host.overwrite(fileEntry.path, fileEntry.content);
+                        return null;
+                    }
+                    return fileEntry;
+                }),
             ]), schematics_1.MergeStrategy.Default),
             options.uiFramework === UI_FRAMEWORK_OPTION.MATERIAL ? schematics_1.externalSchematic('@angular/material', 'material-shell', {
                 project: options.project

@@ -12,7 +12,9 @@ import {environment} from '../environments/environment';
 <% } %>
 import {HttpClientModule} from '@angular/common/http';
 
-<% if(ui.toString() === 'material'){ %>import {MatButtonModule, MatToolbarModule} from '@angular/material';
+<% if(ui.toString() === 'material') { %>
+import {MatButtonModule} from '@angular/material/button';
+import {MatToolbarModule} from '@angular/material/toolbar';
 <% } %>
 
 @NgModule({

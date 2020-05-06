@@ -2,7 +2,8 @@ import {TestBed, async} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 
 <% if(ui.toString() === 'material'){ %>
-import {MatButtonModule, MatToolbarModule} from '@angular/material';
+import {MatButtonModule} from '@angular/material/button';
+import {MatToolbarModule} from '@angular/material/toolbar';
 <% } %>
 
 import {AppComponent} from './app.component';

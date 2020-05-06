@@ -19,14 +19,12 @@ import {Edit<%= classify(singularize(name)) %>Guard} from './<%= dasherize(singu
 import {<%= classify(pluralize(service)) %>Service} from '<%= absoluteSrcPath(servicePath) %>/<%= dasherize(pluralize(service)) %>.service';
 <% if(ui.toString() === 'material'){ %>
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {
-    MatButtonModule,
-    MatTableModule,
-    MatCardModule,
-    MatListModule,
-    MatFormFieldModule,
-    MatInputModule
-} from '@angular/material';
+import {MatButtonModule} from "@angular/material/button";
+import {MatTableModule } from "@angular/material/table";
+import {MatCardModule} from "@angular/material/card";
+import {MatListModule} from "@angular/material/list";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 <% } %>
 
 @NgModule({

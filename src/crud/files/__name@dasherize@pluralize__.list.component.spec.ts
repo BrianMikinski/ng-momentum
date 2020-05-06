@@ -6,11 +6,9 @@ import { <%= classify(pluralize(name)) %>ListComponent } from './<%= dasherize(p
 import { <%= classify(singularize(vo)) %> } from '<%= absoluteSrcPath(voPath) %>/<%= dasherize(singularize(vo)) %>';
 
 <% if(ui.toString() === 'material'){ %>
-import {
-    MatButtonModule,
-    MatTableModule,
-    MatCardModule,
-} from '@angular/material';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTableModule} from '@angular/material/table';
+import {MatCardModule} from '@angular/material/card';
 <% } %>
 
 describe('<%= classify(pluralize(name)) %>ListComponent', () => {

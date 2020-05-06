@@ -6,12 +6,10 @@ import {<%= classify(name) %>Component } from './<%= dasherize(name) %>.componen
 <% if(ui.toString() === 'material'){ %>
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
-import {
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule
-} from '@angular/material';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 <% } %>
 
 describe('<%= classify(name) %>Component', () => {

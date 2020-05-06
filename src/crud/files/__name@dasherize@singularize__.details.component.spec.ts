@@ -12,11 +12,9 @@ import { <%= classify(singularize(vo)) %> } from '<%= absoluteSrcPath(voPath) %>
 import {<%= classify(pluralize(service)) %>Service} from '<%= absoluteSrcPath(servicePath) %>/<%= dasherize(pluralize(service)) %>.service';
 
 <% if(ui.toString() === 'material'){ %>
-import {
-    MatButtonModule,
-    MatCardModule,
-    MatListModule
-} from '@angular/material';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import {MatListModule} from '@angular/material/list';
 <% } %>
 
 describe('<%= classify(singularize(name)) %>Component', () => {
