@@ -19,7 +19,4 @@ yarn-error.log*
 .DS_Store
 
 # Outputs
-src/**/*.js
-src/**/*.js.map
-src/**/*.d.ts
 ng-momentum-*.tgz

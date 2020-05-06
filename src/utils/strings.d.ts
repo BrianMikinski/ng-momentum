@@ -1,0 +1,23 @@
+declare function classify(value: any): string;
+declare function dasherize(value: any): string;
+declare function camelize(value: any): string;
+declare function capitalize(value: any): string;
+declare function decamelize(value: any): string;
+declare function underscore(value: any): string;
+declare function pluralize(value: any): string;
+declare function singularize(value: any): string;
+declare function absolutePath(value: any): string;
+declare function absoluteSrcPath(value: any): string;
+export declare const strings: {
+    classify: typeof classify;
+    dasherize: typeof dasherize;
+    camelize: typeof camelize;
+    capitalize: typeof capitalize;
+    decamelize: typeof decamelize;
+    underscore: typeof underscore;
+    pluralize: typeof pluralize;
+    singularize: typeof singularize;
+    absolutePath: typeof absolutePath;
+    absoluteSrcPath: typeof absoluteSrcPath;
+};
+export {};

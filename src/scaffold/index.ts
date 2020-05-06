@@ -1,4 +1,4 @@
-import {join, JsonArray, JsonObject, normalize, Path, strings} from '@angular-devkit/core';
+import { join, JsonArray, JsonObject, normalize, Path, strings } from '@angular-devkit/core';
 import {
     apply,
     chain,
@@ -13,20 +13,22 @@ import {
     SchematicsException,
     template,
     Tree,
-    url
+    url,
+    forEach,
+    FileEntry
 } from '@angular-devkit/schematics';
-import {getWorkspace} from '@schematics/angular/utility/config';
-import {Schema as ScaffoldOptions} from './schema';
-import {setupOptions} from '../utils/setup';
-import {constants} from '../utils/constants';
+import { getWorkspace } from '@schematics/angular/utility/config';
+import { Schema as ScaffoldOptions } from './schema';
+import { setupOptions } from '../utils/setup';
+import { constants } from '../utils/constants';
 import {
     addScriptIntoPackageJson,
     addValueIntoAngularJsonBuildProjects,
     readValueFromAngularJsonBuildProjects
 } from '../utils/json-editor';
-import {addPackageJsonDependency, NodeDependencyType} from '../utils/dependencies';
-import {addImportToFile} from "../utils/module-utils";
-import {deleteFile} from "../utils/overwrite-filter";
+import { addPackageJsonDependency, NodeDependencyType } from '../utils/dependencies';
+import { addImportToFile } from "../utils/module-utils";
+import { deleteFile } from "../utils/overwrite-filter";
 
 export enum UI_FRAMEWORK_OPTION {
     BASIC = 'basic',
@@ -208,18 +210,45 @@ export function scaffold(options: ScaffoldOptions): Rule {
                 defaultOptions.styleext ? noop() : filter(path => !path.endsWith(constants.styleTemplateFileExtension)),
                 template(templateOptions),
                 move(appPath),
+                // fix for bug
+                // https://stackoverflow.com/questions/48957132/how-to-overwrite-file-with-angular-schematics
+                forEach((fileEntry: FileEntry) => {
+                    if (host.exists(fileEntry.path)) {
+                        host.overwrite(fileEntry.path, fileEntry.content);
+                        return null;
+                    }
+                    return fileEntry;
+                }),
             ]), MergeStrategy.Overwrite),
             mergeWith(apply(url('./src-files'), [
                 options.spec ? noop() : filter(path => !path.endsWith(constants.specFileExtension)),
                 defaultOptions.styleext ? noop() : filter(path => !path.endsWith(constants.styleTemplateFileExtension)),
                 template(templateOptions),
                 move(sourcePath),
+                // fix for bug
+                // https://stackoverflow.com/questions/48957132/how-to-overwrite-file-with-angular-schematics
+                forEach((fileEntry: FileEntry) => {
+                    if (host.exists(fileEntry.path)) {
+                        host.overwrite(fileEntry.path, fileEntry.content);
+                        return null;
+                    }
+                    return fileEntry;
+                }),
             ]), MergeStrategy.Default),
             mergeWith(apply(url('./project-files'), [
                 options.spec ? noop() : filter(path => !path.endsWith(constants.specFileExtension)),
                 defaultOptions.styleext ? noop() : filter(path => !path.endsWith(constants.styleTemplateFileExtension)),
                 template(templateOptions),
                 move(rootPath),
+                // fix for bug
+                // https://stackoverflow.com/questions/48957132/how-to-overwrite-file-with-angular-schematics
+                forEach((fileEntry: FileEntry) => {
+                    if (host.exists(fileEntry.path)) {
+                        host.overwrite(fileEntry.path, fileEntry.content);
+                        return null;
+                    }
+                    return fileEntry;
+                }),
             ]), MergeStrategy.Default),
             options.uiFramework === UI_FRAMEWORK_OPTION.MATERIAL ? externalSchematic('@angular/material', 'material-shell', {
                 project: options.project
